@@ -1,20 +1,18 @@
 import { RelatedTimezone } from "../types/time";
 
-function getRelatedTimezone(hhmm: string, gmt: number): RelatedTimezone[] {
-    const [hh, mm] = hhmm.split(/[:.]/);
-    const timezoneList = [0,7,11]
-
-    const result: RelatedTimezone[] = [];
-    for (const timezone of timezoneList) {
-        const utc = gmt * 60;
-        const totalMinutes = parseInt(hh) * 60 + parseInt(mm);
-        const relatedTimezone = totalMinutes - utc;
-        result.push({
-            time: `${hh}:${mm}`,
-            gmt: timezone,
-            isYesterday: false,
-            isTomorrow: false,
-        });
+function getRelativeHourMatrix(hour: number) {
+    const matrix: number[][] = [];
+    for (let i = 0; i <= 24; i++) {
+        matrix[i] = []
+        for (let j = 0; j <= 24; j++) {
+            const t = (hour + i - 12) + (j - 12);
+            matrix[i].push(t)
+        }
     }
-    return result;
+    return matrix.reverse();
+}
+
+export function getRelativeHour(hour: number, currentGmt: number, targetGmt: number) {
+    const matrix = getRelativeHourMatrix(hour);
+    return matrix[12 + currentGmt][12 + targetGmt];
 }
