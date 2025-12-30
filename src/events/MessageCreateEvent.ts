@@ -14,6 +14,14 @@ export default class MessageCreateEvent {
     }
 
     async replyRelatedTimezone(message: OmitPartialGroupDMChannel<Message<boolean>>): Promise<void> {
+
+        let userGmt = 7;
+        if (message.author.id === "240689299975176193") {
+            userGmt = 0;
+        } else if (message.author.id === "215459503846457354") {
+            userGmt = 11;
+        }
+
         const matches = message.content.matchAll(timeRegex);
         const matchTimes = [...matches].map(match => match[0]);
         const targetTimezone = [
@@ -38,7 +46,7 @@ export default class MessageCreateEvent {
 
             const text = []
             for (const tz of targetTimezone) {
-                let relativeHour = getRelativeHour(Number(hour), 7, tz.relative)
+                let relativeHour = getRelativeHour(Number(hour), userGmt, tz.relative)
                 let suffix = undefined
                 if (relativeHour < 0) {
                     suffix = "เมื่อวาน"
@@ -49,7 +57,7 @@ export default class MessageCreateEvent {
                 } else {
                     suffix = "วันนี้"
                 }
-                text.push(`${tz.icon} \`${relativeHour}:${minute} (${suffix}, ${tz.label})\``)
+                text.push(`${tz.icon} \`${relativeHour}:${minute} (${suffix} / ${tz.label})\``)
             }
             await message.reply(text.join("\n"));
         }
