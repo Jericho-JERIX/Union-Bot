@@ -1,10 +1,10 @@
 pipeline {
     agent any
     environment {
-        ENV_FILE=credentials('')
-        PORT=8000
-        IMAGE_NAME=''
-        CONTAINER_NAME=''
+        ENV_FILE=credentials('union-env')
+        PORT=8011
+        IMAGE_NAME='union-bot'
+        CONTAINER_NAME='union-bot-container'
     }
     stages {
         stage('Setup Environment') {
