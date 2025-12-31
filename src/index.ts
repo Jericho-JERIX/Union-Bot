@@ -43,7 +43,6 @@ client.on("interactionCreate", async (interaction: BaseInteraction) => {
 });
 
 client.on("messageCreate", async (message) => {
-  console.log("Message created");
   await messageCreateEvent.handle(message);
 });
 

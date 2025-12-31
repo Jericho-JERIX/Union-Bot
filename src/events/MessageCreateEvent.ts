@@ -1,7 +1,7 @@
 import { Message, OmitPartialGroupDMChannel } from "discord.js";
 import { getRelativeHour } from "../utils/time";
 
-const timeRegex = /[0-9]{1,2}(:|.)[0-9]{2}/g;
+const timeRegex = /[0-9]{1,2}(:|\.)[0-9]{2}/g;
 
 export default class MessageCreateEvent {
     constructor() { }
